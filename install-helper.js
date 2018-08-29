@@ -6,8 +6,8 @@ switch (process.argv[2]) {
 case '--install':
   install().catch(console.error);
   break;
-case '--prepublishOnly':
-  prePublish().catch(console.error);
+case '--prepack':
+  prepack().catch(console.error);
   break;
 default:
   console.error(`Unmatched install-helper request: '${process.argv[2]}'`);
@@ -32,7 +32,7 @@ async function install() {
   }
 }
 
-async function prePublish() {
+async function prepack() {
   const fs = require('fs-extra');
   // Prebuild the binary for different targets
   const targets = [

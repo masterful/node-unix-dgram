@@ -29,7 +29,7 @@
   },
   "optionalDependencies": {},
   "scripts": {
-    "prepublishOnly": "node install-helper --prepublishOnly",
+    "prepack": "node install-helper --prepack",
     "install": "node install-helper --install",
     "test": "node test/test-dgram-unix.js && node test/test-connect.js && node test/test-connect-callback.js && node test/test-send-error.js"
   }
