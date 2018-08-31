@@ -47,7 +47,7 @@ async function prepack() {
   await fs.emptyDir('builds');
 
   for (const { arch, version } of targets) {
-    console.log(platform, arch, version);
+    console.log('building', platform, arch, version);
     await exec(`node-gyp configure --target=${version} --arch=${arch}`);
     await exec('node-gyp build');
     // Move build files to directory:
