@@ -1,9 +1,9 @@
 const { promisify } = require('util');
 const exec = promisify(require('child_process').exec);
 
-// What do we need to do:
 (async () => {
   try {
+    // What do we need to do:
     switch (process.argv[2]) {
     case '--install':
       await install();
@@ -15,6 +15,7 @@ const exec = promisify(require('child_process').exec);
       throw new Error(`Unmatched install-helper request: '${process.argv[2]}'`);
     }
   } catch (error) {
+    // Catch any errors so we can then exit the process with an error code:
     console.error(error.message);
     process.exit(1);
   }
@@ -23,7 +24,7 @@ const exec = promisify(require('child_process').exec);
 async function install() {
   const fs = require('fs');
   // See if we have an existing build for the current version/platform/arch:
-  const { arch, platform, version } = process;
+  const { version, platform, arch } = process;
   // We only care about major version:
   const [ majorVersion ] = version.split('.');
 
@@ -57,7 +58,7 @@ async function prepack() {
     console.log('building', platform, arch, version);
     await exec(`node-gyp configure --target=${version} --arch=${arch}`);
     await exec('node-gyp build');
-    // Move build files to directory:
+    // Move build files to a target-based directory:
     const [ majorVersion ] = version.split('.');
     const binaryFolder = `builds/${majorVersion}/${platform}/${arch}`;
     await fs.move('build', binaryFolder);
