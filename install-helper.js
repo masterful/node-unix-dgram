@@ -2,16 +2,23 @@ const { promisify } = require('util');
 const exec = promisify(require('child_process').exec);
 
 // What do we need to do:
-switch (process.argv[2]) {
-case '--install':
-  install().catch(console.error);
-  break;
-case '--prepack':
-  prepack().catch(console.error);
-  break;
-default:
-  console.error(`Unmatched install-helper request: '${process.argv[2]}'`);
-}
+(async () => {
+  try {
+    switch (process.argv[2]) {
+    case '--install':
+      await install();
+      break;
+    case '--prepack':
+      await prepack();
+      break;
+    default:
+      throw new Error(`Unmatched install-helper request: '${process.argv[2]}'`);
+    }
+  } catch (error) {
+    console.error(error.message);
+    process.exit(1);
+  }
+})();
 
 async function install() {
   const fs = require('fs');
