@@ -29,7 +29,7 @@ async function install() {
   const [ majorVersion ] = version.split('.');
 
   try {
-    // Move folder to build location so that `bindings` can find it:
+    // Move the folder to the build location so that `bindings` can find it:
     const binaryFolder = `builds/${majorVersion}/${platform}/${arch}`;
     await promisify(fs.rename)(binaryFolder, 'build');
 
