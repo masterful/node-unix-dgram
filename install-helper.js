@@ -25,13 +25,10 @@ async function install() {
   const fs = require('fs');
   // See if we have an existing build for the current version/platform/arch:
   const { version, platform, arch } = process;
-  // We only care about major version:
-  const [ majorVersion ] = version.split('.');
 
   try {
     // Move the folder to the build location so that `bindings` can find it:
-    const binaryFolder = `builds/${majorVersion}/${platform}/${arch}`;
-    await promisify(fs.rename)(binaryFolder, 'build');
+    await promisify(fs.rename)(`builds/${version}/${platform}/${arch}`, 'build');
 
   } catch (error) {
     // Couldn't find the prebuilt binary for this platform, need to build it:
@@ -59,8 +56,6 @@ async function prepack() {
     await exec(`node-gyp configure --target=${version} --arch=${arch}`);
     await exec('node-gyp build');
     // Move build files to a target-based directory:
-    const [ majorVersion ] = version.split('.');
-    const binaryFolder = `builds/${majorVersion}/${platform}/${arch}`;
-    await fs.move('build', binaryFolder);
+    await fs.move('build', `builds/${version}/${platform}/${arch}`);
   }
 }
