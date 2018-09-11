@@ -37,13 +37,20 @@ async function install() {
   }
 }
 
+function getTargets() {
+  // See if we specified targets in the environment:
+  try {
+    return JSON.parse(process.env.NODE_TARGETS);
+  } catch (error) {}
+  // Otherwise, return the default:
+  const { arch, version } = process;
+  return [{ arch, version }];
+}
+
 async function prepack() {
   const fs = require('fs-extra');
   // Prebuild the binary for different targets
-  const targets = [
-    { arch: 'x64', version: 'v8.11.4' },
-    { arch: 'x64', version: 'v10.9.0' },
-  ];
+  const targets = getTargets();
   // Can only target the platform we're currently on, unfortunately
   const { platform } = process;
 
