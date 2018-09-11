@@ -4,3 +4,4 @@
 /.npmignore 
 /build/
 /node_modules/
+/test/
