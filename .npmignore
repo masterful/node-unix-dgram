@@ -1,3 +1,6 @@
+/.git
+/.gitignore
 /.lock-wscript
+/.npmignore 
 /build/
 /node_modules/
