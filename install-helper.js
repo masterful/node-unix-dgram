@@ -31,6 +31,8 @@ async function install() {
     await promisify(fs.rename)(`builds/${version}/${platform}/${arch}`, 'build');
 
   } catch (error) {
+    // If the build directory exists, we don't need to do anything:
+    if (error.code === 'ENOTEMPTY') { return; } 
     // Couldn't find the prebuilt binary for this platform, need to build it:
     console.error(error.message);
     await exec('node-gyp rebuild');
